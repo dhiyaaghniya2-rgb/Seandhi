@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GadgetZone - Pusat Jual Beli HP & Smartphone Terbaru</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center space-x-3 border border-gray-700">
+        <i id="toast-icon" class="fas fa-info-circle text-blue-400 text-lg"></i>
+        <span id="toast-message" class="text-sm font-medium">Notifikasi</span>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-gradient-to-tr from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-md">
+                        <i class="fas fa-mobile-screen-button text-xl"></i>
+                    </div>
+                    <div>
+                        <a href="#" class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">GadgetZone</a>
+                        <span class="block text-[10px] text-gray-400 tracking-wider uppercase font-semibold">Pusat HP All Brand</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center space-x-3">
+                    <!-- Modal Pembayaran Info Button -->
+                    <button onclick="openPaymentModal()" class="hidden sm:flex items-center space-x-2 text-gray-600 hover:text-blue-600 bg-gray-100 hover:bg-blue-50 px-3 py-2 rounded-xl text-sm font-medium transition">
+                        <i class="fas fa-wallet text-blue-500"></i>
+                        <span>Info Pembayaran</span>
+                    </button>
+
+                    <!-- Kelola Etalase (Admin) -->
+                    <button onclick="openAdminModal()" class="flex items-center space-x-2 text-white bg-indigo-600 hover:bg-indigo-700 px-3.5 py-2 rounded-xl text-sm font-medium transition shadow-sm hover:shadow">
+                        <i class="fas fa-plus-circle"></i>
+                        <span class="hidden md:inline">Tambah Produk</span>
+                    </button>
+
+                    <!-- Cart Button -->
+                    <button onclick="toggleCartDrawer()" class="relative bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-blue-600 p-2.5 rounded-xl transition">
+                        <i class="fas fa-shopping-bag text-lg"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white scale-0 transition-transform">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-800 text-white py-10 px-4 mb-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="space-y-3 text-center md:text-left max-w-2xl">
+                <span class="bg-blue-500/30 text-blue-100 border border-blue-400/30 text-xs px-3 py-1 rounded-full font-medium inline-block uppercase tracking-wider">Garansi Resmi & Import</span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Cari HP Impianmu dengan Harga Best Deal!</h1>
+                <p class="text-blue-100 text-sm sm:text-base">Tersedia semua merek ternama: iPhone, Samsung, Xiaomi, OPPO, Vivo, Realme, Infinix, dan lainnya. Beli gampang, bayar praktis via E-Wallet & Bank Transfer.</p>
+                <div class="pt-2 flex flex-wrap justify-center md:justify-start gap-4 text-xs font-medium text-blue-100">
+                    <span class="flex items-center gap-1.5"><i class="fas fa-check-circle text-green-400"></i> Transaksi Aman</span>
+                    <span class="flex items-center gap-1.5"><i class="fas fa-check-circle text-green-400"></i> Respon WA Cepat</span>
+                    <span class="flex items-center gap-1.5"><i class="fas fa-check-circle text-green-400"></i> Pengiriman Ke Seluruh ID</span>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-3">
+                <button onclick="openPaymentModal()" class="bg-white/10 hover:bg-white/20 backdrop-blur border border-white/20 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition">
+                    <i class="fas fa-qrcode mr-2"></i> Metode Pembayaran
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-grow w-full mb-12">
+        
+        <!-- Controls: Search & Brand Filter -->
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-gray-200 mb-8 space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                
+                <!-- Search Box -->
+                <div class="md:col-span-6 relative">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="search-input" oninput="applyFilters()" placeholder="Cari nama HP (contoh: iPhone 15, Poco X6...)" class="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition text-sm">
+                </div>
+
+                <!-- Brand Filter Dropdown -->
+                <div class="md:col-span-3">
+                    <select id="brand-filter" onchange="applyFilters()" class="w-full py-2.5 px-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition text-sm">
+                        <option value="ALL">Semua Merk (All Brands)</option>
+                        <option value="Apple">Apple / iPhone</option>
+                        <option value="Samsung">Samsung</option>
+                        <option value="Xiaomi">Xiaomi / Poco</option>
+                        <option value="OPPO">OPPO</option>
+                        <option value="Vivo">Vivo</option>
+                        <option value="Realme">Realme</option>
+                        <option value="Infinix">Infinix</option>
+                        <option value="Lainnya">Merk Lainnya</option>
+                    </select>
+                </div>
+
+                <!-- Price Sort -->
+                <div class="md:col-span-3">
+                    <select id="price-sort" onchange="applyFilters()" class="w-full py-2.5 px-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition text-sm">
+                        <option value="default">Urutkan Harga</option>
+                        <option value="low-high">Harga: Terendah → Tertinggi</option>
+                        <option value="high-low">Harga: Tertinggi → Terendah</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Quick Brand Chips -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 pt-2 custom-scrollbar text-xs">
+                <span class="text-gray-400 font-medium whitespace-nowrap">Popular:</span>
+                <button onclick="selectBrandChip('ALL')" class="chip-btn active px-3 py-1 rounded-full bg-blue-600 text-white font-medium whitespace-nowrap transition">Semua</button>
+                <button onclick="selectBrandChip('Apple')" class="chip-btn px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium whitespace-nowrap transition">Apple</button>
+                <button onclick="selectBrandChip('Samsung')" class="chip-btn px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium whitespace-nowrap transition">Samsung</button>
+                <button onclick="selectBrandChip('Xiaomi')" class="chip-btn px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium whitespace-nowrap transition">Xiaomi</button>
+                <button onclick="selectBrandChip('OPPO')" class="chip-btn px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium whitespace-nowrap transition">OPPO</button>
+                <button onclick="selectBrandChip('Infinix')" class="chip-btn px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium whitespace-nowrap transition">Infinix</button>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Products will be injected here dynamically -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-dashed border-gray-300">
+            <div class="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fas fa-search"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-700">Produk Tidak Ditemukan</h3>
+            <p class="text-sm text-gray-500 max-w-sm mx-auto mt-1">Coba kata kunci lain atau pilih filter merk yang berbeda.</p>
+            <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-xl text-sm font-semibold transition">Reset Filter</button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 border-t border-gray-800 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-2 text-white font-bold text-lg">
+                        <i class="fas fa-mobile-screen-button text-blue-500"></i>
+                        <span>GadgetZone</span>
+                    </div>
+                    <p class="text-xs leading-relaxed">Toko Jual Beli HP online terpercaya. Menyediakan produk HP Baru & Second berkualitas garansi resmi dengan harga terbaik.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white text-sm font-semibold mb-3">Brand Populer</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" onclick="selectBrandChip('Apple')" class="hover:text-white transition">iPhone / Apple</a></li>
+                        <li><a href="#" onclick="selectBrandChip('Samsung')" class="hover:text-white transition">Samsung Galaxy</a></li>
+                        <li><a href="#" onclick="selectBrandChip('Xiaomi')" class="hover:text-white transition">Xiaomi & Poco</a></li>
+                        <li><a href="#" onclick="selectBrandChip('OPPO')" class="hover:text-white transition">OPPO Series</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white text-sm font-semibold mb-3">Metode Pembayaran</h4>
+                    <p class="text-xs mb-2">Mendukung Pembayaran Lengkap:</p>
+                    <div class="flex flex-wrap gap-2 text-xs">
+                        <span class="bg-gray-800 text-gray-300 px-2.5 py-1 rounded border border-gray-700">QRIS</span>
+                        <span class="bg-gray-800 text-gray-300 px-2.5 py-1 rounded border border-gray-700">DANA</span>
+                        <span class="bg-gray-800 text-gray-300 px-2.5 py-1 rounded border border-gray-700">OVO</span>
+                        <span class="bg-gray-800 text-gray-300 px-2.5 py-1 rounded border border-gray-700">BCA</span>
+                        <span class="bg-gray-800 text-gray-300 px-2.5 py-1 rounded border border-gray-700">BRI</span>
+                        <span class="bg-gray-800 text-gray-300 px-2.5 py-1 rounded border border-gray-700">Mandiri</span>
+                        <span class="bg-gray-800 text-gray-300 px-2.5 py-1 rounded border border-gray-700">BJB</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white text-sm font-semibold mb-3">Layanan Pelanggan</h4>
+                    <p class="text-xs leading-relaxed mb-3">Ada pertanyaan atau butuh bantuan negosiasi harga?</p>
+                    <a id="footer-wa-btn" href="#" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition shadow-sm">
+                        <i class="fab fa-whatsapp text-sm"></i> Chat CS WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
+                <p>&copy; 2026 GadgetZone Store. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: Informasi Pembayaran (QRIS, E-Wallet, Bank) -->
+    <div id="payment-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden transform transition-all">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4 text-white flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-wallet text-xl"></i>
+                    <h3 class="font-bold text-lg">Metode Pembayaran</h3>
+                </div>
+                <button onclick="closePaymentModal()" class="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 transition">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-6 overflow-y-auto max-h-[80vh] custom-scrollbar space-y-6">
+                <!-- QRIS Section -->
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl text-center">
+                    <span class="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-0.5 rounded-full mb-2">Rekomendasi / Praktis</span>
+                    <h4 class="font-bold text-gray-800 text-sm">Scan QRIS (Semua E-Wallet & Mobile Banking)</h4>
+                    <p class="text-xs text-gray-500 mb-3">Bisa di-scan via DANA, OVO, GoPay, ShopeePay, BCA Mobile, Livin, dll.</p>
+                    <div class="bg-white p-3 inline-block rounded-xl border border-gray-300 shadow-sm">
+                        <!-- Placeholder QR Code -->
+                        <img src="https://placehold.co/200x200/ffffff/1e293b?text=QRIS+GADGETZONE" alt="QRIS Code" class="w-40 h-40 object-contain mx-auto">
+                    </div>
+                </div>
+
+                <!-- E-Wallet Section -->
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">E-Wallet Direct</h4>
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between p-3 bg-blue-50/50 border border-blue-100 rounded-xl">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-9 h-9 bg-blue-600 text-white font-bold rounded-lg flex items-center justify-center text-xs">DANA</div>
+                                <div>
+                                    <p class="text-xs text-gray-500 font-medium">DANA Admin</p>
+                                    <p class="text-sm font-bold text-gray-800" id="num-dana">0812-3456-7890</p>
+                                </div>
+                            </div>
+                            <button onclick="copyToClipboard('081234567890', 'Nomor DANA')" class="text-xs text-blue-600 bg-white hover:bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-lg font-semibold transition">Salin</button>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-purple-50/50 border border-purple-100 rounded-xl">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-9 h-9 bg-purple-600 text-white font-bold rounded-lg flex items-center justify-center text-xs">OVO</div>
+                                <div>
+                                    <p class="text-xs text-gray-500 font-medium">OVO Admin</p>
+                                    <p class="text-sm font-bold text-gray-800" id="num-ovo">0812-3456-7890</p>
+                                </div>
+                            </div>
+                            <button onclick="copyToClipboard('081234567890', 'Nomor OVO')" class="text-xs text-purple-600 bg-white hover:bg-purple-50 border border-purple-200 px-3 py-1.5 rounded-lg font-semibold transition">Salin</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transfer Bank Section -->
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Transfer Bank</h4>
+                    <div class="space-y-2.5">
+                        <!-- BCA -->
+                        <div class="flex items-center justify-between p-3 border border-gray-200 rounded-xl hover:border-blue-300 transition">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-7 bg-blue-900 text-white text-[10px] font-bold rounded flex items-center justify-center">BCA</div>
+                                <div>
+                                    <p class="text-xs text-gray-500 font-medium">PT Gadget Zone Store</p>
+                                    <p class="text-sm font-bold text-gray-800">8800-123-999</p>
+                                </div>
+                            </div>
+                            <button onclick="copyToClipboard('8800123999', 'Rekening BCA')" class="text-xs text-gray-700 bg-gray-100 hover:bg-gray-200 px-3 py-
